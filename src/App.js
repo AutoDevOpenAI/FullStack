@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import Chatbot from './Chatbot.js';
+import Chatbot from './Chatbot'
 
 function App() {
   return (

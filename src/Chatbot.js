@@ -1,39 +1,47 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, TextField, Button, List, ListItem, ListItemText, Paper } from '@mui/material';
+import { Box, TextField, Button, List, ListItem, Paper, Typography } from '@mui/material';
 
 function Chatbot() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
-    const messagesEndRef = useRef(null);  // Create a ref for the scrolling operation
+    const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     useEffect(() => {
-        scrollToBottom();  // Scroll to bottom every time messages change
+        scrollToBottom();
     }, [messages]);
 
     const handleSendMessage = () => {
         if (input.trim()) {
             setMessages([...messages, { text: input, sender: 'user' }]);
-            console.log(input);  // Logging user input to the console
+            console.log(input);
             setTimeout(() => {
                 setMessages(messages => [...messages, { text: "Hello World", sender: 'bot' }]);
-            }, 500);  // Simulating a response delay
+            }, 500);
         }
         setInput('');
     };
 
     return (
         <Paper style={{ padding: '20px', display: 'flex', flexDirection: 'column', height: '70vh' }}>
-            <List style={{ overflowY: 'auto', flexGrow: 1 }}>
+            <List style={{ overflowY: 'auto', flexGrow: 1, padding: 0 }}>
                 {messages.map((message, index) => (
-                    <ListItem key={index}>
-                        <ListItemText
-                            primary={message.text}
-                            style={{ textAlign: message.sender === 'bot' ? 'left' : 'right' }}
-                        />
+                    <ListItem key={index} style={{ display: 'flex', justifyContent: message.sender === 'user' ? 'flex-end' : 'flex-start', padding: '8px 20px' }}>
+                        <Box
+                            sx={{
+                                maxWidth: '70%',
+                                padding: '10px 15px',
+                                backgroundColor: message.sender === 'user' ? "#556cd6" : '#f0f0f0',
+                                color: message.sender === 'user' ? 'white' : 'black',
+                                borderRadius: '20px',
+                                textAlign: 'left',
+                            }}
+                        >
+                            <Typography variant="body1">{message.text}</Typography>
+                        </Box>
                     </ListItem>
                 ))}
                 <div ref={messagesEndRef} />
